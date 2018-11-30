@@ -1,0 +1,52 @@
+{% load static %}
+{# block used as header #}
+ {% block header %}
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <!-- Chargement du CSS, bootstrap, javascript et jQuery -->
+        {% load bootstrap3 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript jquery='full' %}
+        {% bootstrap_messages %}
+        <link type="text/css" media="all" href="{% static "css/style.css" %}" rel="stylesheet"/>
+        <title>The Project Factory</title>
+    </head>
+    <body>
+{% endblock %}
+
+{% block nav %}
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'accueil' %}">The Project Factory</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="{% url 'accueil' %}">Home</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+                <li><a href="">Profil</a></li>
+                <li><a href="">Deconnexion</a></li>
+            {% else %}
+                <li><a href="">Connexion</a></li>
+            {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+{% endblock %}
+
+{% block content %}
+    <!--content of the body-->
+{% endblock %}
+
+{# block used for footer #}
+{% block footer%}
+
+
+        <footer>
+
+        </footer>
+    </body>
+</html>
+{%  endblock %}
