@@ -1,9 +1,8 @@
 from django import forms
-from the_project_factory_default.models import Personne
 from django.contrib.auth.models import User
 
 
-class SignUpForm(forms.Form):
+class SignUpForm(forms.ModelForm):
     """form to register a new user"""
 
     identifiant = forms.CharField(label='identifiant', required=True)
@@ -12,9 +11,13 @@ class SignUpForm(forms.Form):
 
     field_order = ['identifiant', 'password1', 'password2', ]
 
+    class Meta:
+        model = User
+        fields = []
+
     def clean_identifiant(self):
         identifiant = self.cleaned_data.get('identifiant')
-        qs = Personne.objects.filter(username=identifiant)
+        qs = User.objects.filter(username=identifiant)
         if qs.exists():
             raise forms.ValidationError("username is taken")
         return identifiant
@@ -40,12 +43,9 @@ class SignUpForm(forms.Form):
         :param commit: True to save in DB false in other case
         :return: the method return a user object to the controleur
         """
-        username = self.cleaned_data.get("identifiant")
-        user = User(username=username)
+        user = super(SignUpForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+        user.username = (self.cleaned_data["identifiant"])
         if commit:
             user.save()
-        personne = Personne()
-        personne.user = user
-        personne.save()
         return user
