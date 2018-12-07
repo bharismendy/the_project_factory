@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from the_project_factory.settings import STATIC_ROOT
 
 
 # Create your models here.

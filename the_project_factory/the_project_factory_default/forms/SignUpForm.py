@@ -1,27 +1,23 @@
 from django import forms
-from QuChemPedIA.models import Utilisateur
+from the_project_factory_default.models import Personne
+from django.contrib.auth.models import User
 
 
-class SignUpForm(forms.ModelForm):
+class SignUpForm(forms.Form):
     """form to register a new user"""
 
-    email = forms.CharField(label='email * ', required=False)
+    identifiant = forms.CharField(label='identifiant', required=True)
     password1 = forms.CharField(label='password * ', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm password * ', widget=forms.PasswordInput)
-    affiliation = forms.CharField(label='affiliation', required=False)
 
-    field_order = ['email', 'password1', 'password2', 'affiliation', ]
+    field_order = ['identifiant', 'password1', 'password2', ]
 
-    class Meta:
-        model = Utilisateur
-        fields = ('email', 'affiliation',)
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        qs = Utilisateur.objects.filter(email=email)
+    def clean_identifiant(self):
+        identifiant = self.cleaned_data.get('identifiant')
+        qs = Personne.objects.filter(username=identifiant)
         if qs.exists():
-            raise forms.ValidationError("email is taken")
-        return email
+            raise forms.ValidationError("username is taken")
+        return identifiant
 
     def clean_password1(self):
         """check if the password is valid"""
@@ -44,8 +40,12 @@ class SignUpForm(forms.ModelForm):
         :param commit: True to save in DB false in other case
         :return: the method return a user object to the controleur
         """
-        user = super(SignUpForm, self).save(commit=False)
+        username = self.cleaned_data.get("identifiant")
+        user = User(username=username)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+        personne = Personne()
+        personne.user = user
+        personne.save()
         return user
