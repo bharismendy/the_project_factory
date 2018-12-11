@@ -1,0 +1,7 @@
+<h1>Hey</h1>
+{% for projet in projets %}
+    <p> Titre: {{ projet.titre }}   </p> 
+    <p> Description: {{ projet.description }}    </p>
+    <p> Auteur: {{projet.Auteur.Personne.User.Username}}, Age: {{ projet.Auteur.Personne.age}},Site web: {{ projet.Auteur.Personne.site_web}},Avatar: <img src="{{ projet.Auteur.Personne.avatar }}" alt="img"> </p>
+    <p> Type: {{ projet.Type.nom}}   </p>
+{% endfor %}
