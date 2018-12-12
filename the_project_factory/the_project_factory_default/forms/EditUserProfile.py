@@ -25,12 +25,12 @@ class EditUserProfile(forms.Form):
         if hasattr(self.user, 'last_name'):
             last_name = self.user.last_name
 
-        if hasattr(self.user.personne, 'age'):
-            age = self.user.personne.age
-
         if hasattr(self.user, 'email'):
             email = self.user.email
         try:
+            if hasattr(self.user.personne, 'age'):
+                age = self.user.personne.age
+
             if hasattr(self.user.personne, 'site_web'):
                 site_web = self.user.personne.site_web
 
@@ -39,9 +39,10 @@ class EditUserProfile(forms.Form):
 
             if hasattr(self.user.personne, 'signature'):
                 signature = self.user.personne.signature
-        except:
+        except():
             self.user.personne = Personne(user=self.user)
             self.user.personne.save()
+
         self.fields['first_name'] = forms.CharField(label="first name", required=False, widget=(forms.TextInput(
                                                     attrs={'value': first_name or None})))
         self.fields['last_name'] = forms.CharField(label="last name", required=False, widget=(forms.TextInput(

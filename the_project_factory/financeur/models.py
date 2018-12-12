@@ -14,7 +14,7 @@ class Financeur(models.Model):
 
 
 class Financement(models.Model):
-    Financeur = models.ForeignKey(Financeur, on_delete=models.CASCADE)
+    financeur = models.ForeignKey(Financeur, on_delete=models.CASCADE)
     somme = models.IntegerField(default=0)
 
     def __str__(self):

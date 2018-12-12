@@ -7,7 +7,6 @@
         <!-- Chargement du CSS, bootstrap, javascript et jQuery -->
         {% load bootstrap3 %}
         {% bootstrap_css %}
-        {% bootstrap_javascript jquery='full' %}
         {% bootstrap_messages %}
         <link type="text/css" media="all" href="{% static "css/style.css" %}" rel="stylesheet"/>
         <title>The Project Factory</title>
@@ -27,6 +26,7 @@
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
                 <li><a href="{% url 'profil' %}">Profil</a></li>
+                <li><a href="{% url 'profil' %}">Proposer un projet</a></li>
                 <li><a href="{% url 'deconnexion' %}">Deconnexion</a></li>
             {% else %}
                 <li><a href="{% url 'connexion' %}">Connexion</a></li>

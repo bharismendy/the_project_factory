@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from .forms import ProjetForm
-from .models import *
-from auteur.models import Personne
-from django.http import HttpResponseRedirect
+from projet.forms import ProjetForm
+from projet.models import Type, Projet, PhotoProjet
+from the_project_factory_default.models import Personne
+
 
 def projet_new(request):
 	if request.method == "POST":
@@ -19,9 +19,11 @@ def projet_new(request):
 		form = ProjetForm ()
 		return render(request, 'projet_form.html', {'form': form})
 
+
 def projet_list(request):
 	projet = Projet.objects.all().select_related()
 	return render(request, 'projet_list.html',  {'projets': projet})
+
 
 def projet_list_specific(request,auteur):
 	projet = Projet.objects.filter(Auteur=auteur)

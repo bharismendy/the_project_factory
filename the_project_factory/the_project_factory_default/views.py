@@ -1,14 +1,14 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
-from the_project_factory_default.forms.LoginForm import LoginForm
-from the_project_factory_default.forms.SignUpForm import SignUpForm
-from the_project_factory_default.forms.EditUserProfile import EditUserProfile
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import render
-
+from the_project_factory_default.models import Personne
+from the_project_factory_default.forms.LoginForm import LoginForm
+from the_project_factory_default.forms.SignUpForm import SignUpForm
+from the_project_factory_default.forms.EditUserProfile import EditUserProfile
+from django.core.exceptions import ObjectDoesNotExist
 
 def accueil(request):
     """
@@ -63,6 +63,10 @@ def account(request):
     :param request: variable wich contains the value of the page
     :return: template html
     """
+    try:
+        test=Personne.objects.get(user=request.user)
+    except ObjectDoesNotExist:
+        request.user.personne = Personne.objects.create(user= request.user)
 
     if request.method == 'POST' and 'btn-update-profil' in request.POST:
         form_edit_utilisateur = EditUserProfile(data=request.POST, user=request.user)

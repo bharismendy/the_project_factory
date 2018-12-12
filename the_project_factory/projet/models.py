@@ -20,7 +20,7 @@ class Projet (models.Model):
 
 
 class PhotoProjet(models.Model):
-    Projet = models.ForeignKey(Projet, on_delete=models.CASCADE)
+    projet = models.ForeignKey(Projet, on_delete=models.CASCADE)
     texte = models.CharField(max_length=300)
     image = models.ImageField(null=True, blank=True, upload_to="image_projet/")
 
