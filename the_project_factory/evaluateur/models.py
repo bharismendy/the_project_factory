@@ -5,11 +5,11 @@ from projet.models import Projet, Type
 
 # Create your models here.
 class Evaluateur(models.Model):
-    Personne = models.OneToOneField(Personne)
+    personne = models.ForeignKey(Personne, on_delete=models.CASCADE, default=None)
     karma = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.Personne.user.username
+        return self.personne.user.username
 
 
 class Critere(models.Model):
@@ -20,7 +20,7 @@ class Critere(models.Model):
 
 
 class Evaluation(models.Model):
-    Evaluateur = models.ForeignKey(Evaluateur,on_delete=models.CASCADE, default=None)
+    Evaluateur = models.ForeignKey(Evaluateur, on_delete=models.CASCADE, default=None)
     Type = models.ForeignKey(Type, on_delete=models.CASCADE, default=None)
     note = models.IntegerField(default=0)
     Projet = models.ForeignKey(Projet, on_delete=models.CASCADE, default=None)

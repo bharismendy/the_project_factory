@@ -26,7 +26,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-                <li><a href="">Profil</a></li>
+                <li><a href="{% url 'profil' %}">Profil</a></li>
                 <li><a href="{% url 'deconnexion' %}">Deconnexion</a></li>
             {% else %}
                 <li><a href="{% url 'connexion' %}">Connexion</a></li>

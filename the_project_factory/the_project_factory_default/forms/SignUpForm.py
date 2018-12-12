@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from the_project_factory_default.models import Personne
 
 
 class SignUpForm(forms.ModelForm):
@@ -48,4 +49,7 @@ class SignUpForm(forms.ModelForm):
         user.username = (self.cleaned_data["identifiant"])
         if commit:
             user.save()
+        user.personne = Personne(user=user)
+        if commit:
+            user.personne.save()
         return user

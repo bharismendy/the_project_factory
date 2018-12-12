@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
 from the_project_factory_default.forms.LoginForm import LoginForm
 from the_project_factory_default.forms.SignUpForm import SignUpForm
+from the_project_factory_default.forms.EditUserProfile import EditUserProfile
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render
 
 
 def accueil(request):
@@ -32,7 +35,7 @@ def connexion(request):
             user = authenticate(username=identifiant, password=password)  # Nous vérifions si les données sont correctes
             if user:  # Si l'objet renvoyé n'est pas None
                 login(request, user)  # nous connectons l'utilisateur
-                return HttpResponseRedirect('accueil')
+                return redirect(reverse(accueil))
             else:  # sinon une erreur sera affichée
                 error_login = True
     else:
@@ -43,7 +46,7 @@ def connexion(request):
         if register_form.is_valid():
             user = register_form.save()
             login(request, user)
-            return HttpResponseRedirect('accueil')
+            return redirect(reverse(accueil))
 
     else:
         register_form = SignUpForm()
@@ -52,6 +55,32 @@ def connexion(request):
                                                                      'login_form': login_form,
                                                                      'error_login': error_login,
                                                                      'error_register': error_register})
+
+
+def account(request):
+    """
+    controler of the template account that allow to edit the user profile
+    :param request: variable wich contains the value of the page
+    :return: template html
+    """
+
+    if request.method == 'POST' and 'btn-update-profil' in request.POST:
+        form_edit_utilisateur = EditUserProfile(data=request.POST, user=request.user)
+        if form_edit_utilisateur.is_valid():
+            form_edit_utilisateur.save()
+    else:
+        form_edit_utilisateur = EditUserProfile(data=request.POST, user=request.user)
+
+    if request.method == 'POST' and 'btn-password' in request.POST:
+        form_edit_password = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if form_edit_password.is_valid():
+            user = form_edit_password.save()
+            update_session_auth_hash(request, user)  # Important!
+    else:
+        form_edit_password = PasswordChangeForm(request.user)
+    return render(request, 'the_project_factory_default/profil.html', {'form_edit_utilisateur': form_edit_utilisateur,
+                                                                       'form_edit_password': form_edit_password})
 
 
 def deconnexion(request):

@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'the_project_factory',
-    'auteur',
     'evaluateur',
     'financeur',
     'projet',

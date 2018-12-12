@@ -1,5 +1,5 @@
 from django.db import models
-from auteur.models import Auteur
+from the_project_factory_default.models import Personne
 
 
 class Type (models.Model):
@@ -10,13 +10,13 @@ class Type (models.Model):
 
 
 class Projet (models.Model):
-    Auteur = models.ForeignKey(Auteur, on_delete=models.CASCADE)
+    personne = models.ForeignKey(Personne, on_delete=models.CASCADE)
     titre = models.CharField(max_length=100)
     description = models.TextField(blank=False)
     Type = models.ForeignKey(Type, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "projet de " + self.Auteur.Personne.user.username
+        return "projet de " + self.personne.user.username
 
 
 class PhotoProjet(models.Model):

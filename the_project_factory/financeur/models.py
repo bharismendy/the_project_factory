@@ -4,12 +4,13 @@ from the_project_factory_default.models import Personne
 
 # Create your models here.
 class Financeur(models.Model):
-    Personne = models.OneToOneField(Personne)
+    personne = models.ForeignKey(Personne, on_delete=models.CASCADE, default=None)
+
     capacite_financiere = models.IntegerField(default=0)
     limite_projet = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.Personne.user.username
+        return self.personne.user.username
 
 
 class Financement(models.Model):
