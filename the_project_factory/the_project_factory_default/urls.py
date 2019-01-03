@@ -5,5 +5,6 @@ urlpatterns = [
     url('^$', view=views.accueil, name='accueil'),
     url('^deconnexion/', view=views.deconnexion, name='deconnexion'),
     url('^connexion/', view=views.connexion, name='connexion'),
-    url('^profil/', view=views.account, name='profil')
+    url('^profil/', view=views.account, name='profil'),
+    url('^admin_panel', view=views.admin_panel, name='admin_panel')
 ]

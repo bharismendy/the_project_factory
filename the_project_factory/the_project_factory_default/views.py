@@ -1,5 +1,6 @@
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
@@ -8,7 +9,9 @@ from the_project_factory_default.models import Personne
 from the_project_factory_default.forms.LoginForm import LoginForm
 from the_project_factory_default.forms.SignUpForm import SignUpForm
 from the_project_factory_default.forms.EditUserProfile import EditUserProfile
-from django.core.exceptions import ObjectDoesNotExist
+from projet.models import Type
+from projet.forms.add_project_type import AddProjectType
+
 
 def accueil(request):
     """
@@ -57,6 +60,19 @@ def connexion(request):
                                                                      'error_register': error_register})
 
 
+def admin_panel(request):
+
+    list_get_type = Type.objects.all()
+    if request.method == 'POST' and 'btn-add-type' in request.POST :
+        add_type_form = AddProjectType(request.POST)
+        if add_type_form.is_valid():
+            add_type_form.save()
+    else:
+        add_type_form = AddProjectType()
+    return render(request, 'the_project_factory_default/admin_panel.html', {'list_of_type': list_get_type,
+                                                                            'add_type_form': add_type_form})
+
+
 def account(request):
     """
     controler of the template account that allow to edit the user profile
@@ -64,7 +80,7 @@ def account(request):
     :return: template html
     """
     try:
-        test=Personne.objects.get(user=request.user)
+        test = Personne.objects.get(user=request.user)  # on tente de récupérer le one to one field Personne
     except ObjectDoesNotExist:
         request.user.personne = Personne.objects.create(user= request.user)
 

@@ -24,9 +24,12 @@
             <li class="active"><a href="{% url 'accueil' %}">Home</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            {% if user.is_superuser %}
+                <li><a href="{% url 'admin_panel' %}">Admin Panel</a></li>
+            {% endif %}
             {% if user.is_authenticated %}
                 <li><a href="{% url 'profil' %}">Profil</a></li>
-                <li><a href="{% url 'profil' %}">Proposer un projet</a></li>
+                <li><a href="{% url 'project/new' %}">Proposer un projet</a></li>
                 <li><a href="{% url 'deconnexion' %}">Deconnexion</a></li>
             {% else %}
                 <li><a href="{% url 'connexion' %}">Connexion</a></li>
