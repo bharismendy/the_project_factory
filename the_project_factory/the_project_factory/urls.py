@@ -20,4 +20,5 @@ urlpatterns = [
     url('^admin/', admin.site.urls),
     url('^', include('the_project_factory_default.urls')),
     url('^project/', include('projet.urls')),
+    url('^evaluate/', include('evaluateur.urls')),
 ]

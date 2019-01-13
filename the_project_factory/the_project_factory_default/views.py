@@ -9,6 +9,7 @@ from the_project_factory_default.models import Personne
 from the_project_factory_default.forms.LoginForm import LoginForm
 from the_project_factory_default.forms.SignUpForm import SignUpForm
 from the_project_factory_default.forms.EditUserProfile import EditUserProfile
+from projet.models import Projet
 from projet.models import Type
 from projet.forms.add_project_type import AddProjectType
 
@@ -19,7 +20,8 @@ def accueil(request):
     :param request: variable wich contains the value of the page
     :return: template html
     """
-    return render(request, 'the_project_factory_default/accueil.html')
+    list_of_all_project = Projet.objects.all()
+    return render(request, 'the_project_factory_default/accueil.html', {'list_of_all_project': list_of_all_project},)
 
 
 def connexion(request):

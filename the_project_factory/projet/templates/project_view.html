@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row margin_5">
+                    <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <h2>{{ projet.titre }}</h2>
+                        <p class="text-justify">
+                            {{ projet.description }}
+                        </p>
+            <p>
+                Ce projet à en moyenne une note de {{ note_projet }}/5
+            </p>
+            {% if already_eval %}
+                <p class = "margin_5">vous avez déjà évalué ce projet !</p>
+            {% else %}
+                <form method="POST" action={% url 'evaluate/project' id_projet=projet.id %}>
+                    {% csrf_token %}
+                        <p class="margin_5">
+                            Vous jugez ce projet :<br/><br/>
+                        </p>
+                        <p>
+                            <button class="btn btn-dark" name="note_1" role="button">Projet inutile</button>
+                            <button class="btn btn-dark" name="note_2" role="button">Projet peu utile</button>
+                            <button class="btn btn-dark" name="note_3" role="button">Projet utile</button>
+                            <button class="btn btn-dark" name="note_4" role="button">Projet un peu utile</button>
+                            <button class="btn btn-dark" name="note_5" role="button">Projet très utile</button>
+                        </p>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

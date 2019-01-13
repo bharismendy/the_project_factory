@@ -1,7 +1,20 @@
-<h1>Hey</h1>
-{% for projet in projets %}
-    <p> Titre: {{ projet.titre }}   </p> 
-    <p> Description: {{ projet.description }}    </p>
-    <p> Auteur: {{projet.Auteur.Personne.User.Username}}, Age: {{ projet.Auteur.Personne.age}},Site web: {{ projet.Auteur.Personne.site_web}},Avatar: <img src="{{ projet.Auteur.Personne.avatar }}" alt="img"> </p>
-    <p> Type: {{ projet.Type.nom}}   </p>
-{% endfor %}
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row margin_5">
+            {% for projet in projets %}
+                <div class="col-lg-4 text-center">
+                    <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                    <h2>{{ projet.titre }}</h2>
+                        <p class="text-justify">
+                            {{ projet.description | slice:":200"  }}
+                        </p>
+                    <p><a href="{% url 'project/project_view' id_projet=projet.id %} "><button class="btn btn-dark" role="button"> View details »</button></a></p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block test %}
+    <p>this is a test</p>
+{% endblock %}
