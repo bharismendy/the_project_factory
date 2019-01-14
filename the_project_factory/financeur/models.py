@@ -1,6 +1,6 @@
 from django.db import models
 from the_project_factory_default.models import Personne
-
+from projet.models import Projet
 
 # Create your models here.
 class Financeur(models.Model):
@@ -15,6 +15,7 @@ class Financeur(models.Model):
 
 class Financement(models.Model):
     financeur = models.ForeignKey(Financeur, on_delete=models.CASCADE)
+    projet = models.ForeignKey(Projet, on_delete=models.CASCADE, null=False, default=None)
     somme = models.IntegerField(default=0)
 
     def __str__(self):

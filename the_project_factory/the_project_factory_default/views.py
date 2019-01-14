@@ -9,9 +9,10 @@ from the_project_factory_default.models import Personne
 from the_project_factory_default.forms.LoginForm import LoginForm
 from the_project_factory_default.forms.SignUpForm import SignUpForm
 from the_project_factory_default.forms.EditUserProfile import EditUserProfile
-from projet.models import Projet
-from projet.models import Type
+from projet.models import Projet,Type
 from projet.forms.add_project_type import AddProjectType
+from financeur.models import Financement, Financeur
+from evaluateur.models import Evaluation,Evaluateur
 
 
 def accueil(request):
@@ -81,6 +82,10 @@ def account(request):
     :param request: variable wich contains the value of the page
     :return: template html
     """
+    list_of_financement = None
+    karma = None
+    list_of_eval = None
+
     try:
         test = Personne.objects.get(user=request.user)  # on tente de récupérer le one to one field Personne
     except ObjectDoesNotExist:
@@ -101,8 +106,26 @@ def account(request):
             update_session_auth_hash(request, user)  # Important!
     else:
         form_edit_password = PasswordChangeForm(request.user)
+    # récupération de l'historique des evalutation et le karma
+    evaluateur = Evaluateur.objects.filter(personne=request.user.personne)
+    if evaluateur is not None:
+        if len(evaluateur) == 1:
+            evaluateur = evaluateur[0]
+            karma = evaluateur.karma
+            list_of_eval = Evaluation.objects.filter(Evaluateur=evaluateur)
+    financeur = Financeur.objects.filter(personne=request.user.personne)
+    if financeur is not None:
+        if len(financeur) == 1:
+            financeur = financeur[0]
+            list_of_financement = Financement.objects.filter(financeur=financeur)
+
+    list_of_project = Projet.objects.filter(personne=request.user.personne)
     return render(request, 'the_project_factory_default/profil.html', {'form_edit_utilisateur': form_edit_utilisateur,
-                                                                       'form_edit_password': form_edit_password})
+                                                                       'form_edit_password': form_edit_password,
+                                                                       'list_of_financement': list_of_financement,
+                                                                       'karma': karma,
+                                                                       'list_of_eval': list_of_eval,
+                                                                       'list_of_project': list_of_project})
 
 
 def deconnexion(request):

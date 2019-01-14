@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row margin_5">
+            <div class="row">
+                <form method="POST" action={% url 'funds/project' id_projet %}>
+                    {% csrf_token %}
+                    {% for field in form.visible_fields %}
+                        <div class="row form-group">
+                        <p>
+                            <div class="col-lg-4">
+                            Vous voulez financer <a href="{% url 'project/project_view' id_projet %}">ce projet</a> à une hauteur de :
+                            </div>
+                            <div class="col-lg-7">
+                              {{ field }}€
+                              {{ field.help_text }}
+                            </div>
+                        </p>
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-success default-primary-color" type="submit">Faire une promesse de don et retourner au projet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

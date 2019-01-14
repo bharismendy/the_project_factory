@@ -40,5 +40,79 @@
             <button class="btn btn-success default-primary-color" name="btn-password" type="submit">Update my password</button>
         </form>
         </div>
-    </div>
+        </div>
+        {% if karma %}
+            <div class="row">
+                <div class="col-md-10  col-md-offset-2 margin_5">
+                <p>Votre karma est de {{ karma }}</p>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">titre du projet</th>
+                      <th scope="col">note donnée</th>
+                      <th scope="col">lien</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for eval in list_of_eval %}
+                    <tr>
+                      <th>{{ eval.Projet.titre }}</th>
+                      <td>{{ eval.note }}</td>
+                        <td><a href="{% url 'project/project_view' id_projet=eval.Projet.id %}">accèder</a></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+    {% if list_of_financement %}
+            <div class="row">
+                <div class="col-md-10  col-md-offset-2 margin_5">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">titre du projet</th>
+                      <th scope="col">promesse de don effectué</th>
+                      <th scope="col">lien</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for financement in list_of_financement %}
+                    <tr>
+                      <th>{{ financement.projet.titre }}</th>
+                      <td>{{ financement.somme }}</td>
+                      <td><a href="{% url 'project/project_view' id_projet=financement.projet.id %}">accèder</a></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+     {% if list_of_project %}
+            <div class="row">
+                <div class="col-md-10  col-md-offset-2 margin_5">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">titre du projet</th>
+                      <th scope="col">Contenu</th>
+                      <th scope="col">lien</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for project in list_of_project %}
+                    <tr>
+                      <th>{{ project.titre }}</th>
+                      <td>{{ project.description | slice:":70"  }}</td>
+                      <td><a href="{% url 'project/project_view' id_projet=project.id %}">accèder</a></td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}

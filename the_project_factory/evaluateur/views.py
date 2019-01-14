@@ -12,6 +12,8 @@ def eval_project(request,id_projet):
     :param request: variable wich contains the value of the page
     :return: template html
     """
+    note_avg_donnee = 0
+
     if request.method == 'POST':
         evaluateur, getted = Evaluateur.objects.get_or_create(personne=request.user.personne)
         projet = Projet.objects.get(id=id_projet)
@@ -30,8 +32,8 @@ def eval_project(request,id_projet):
 
         # Nous allons mettre à jour le karma de notre evaluateur, pour rapelle dans ce projet le karma est la moyenne
         # des notes accordé
-        note_avg_donnée = Evaluation.objects.filter(Evaluateur=evaluateur).aggregate(Avg('note'))
-        note_avg_donnée = note_avg_donnée['note__avg']
-        evaluateur.karma = note_avg_donnée
+        note_avg_donnee = Evaluation.objects.filter(Evaluateur=evaluateur).aggregate(Avg('note'))
+        note_avg_donnee = note_avg_donnee['note__avg']
+        evaluateur.karma = note_avg_donnee
         evaluateur.save()
     return redirect('project/project_view', id_projet)
