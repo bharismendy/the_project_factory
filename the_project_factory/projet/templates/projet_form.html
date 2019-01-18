@@ -3,7 +3,7 @@
     <div class="container vertical-center" >
         <div class="row" id="content_sign_in_up">
             <h2>Nouveau projet</h2>
-            <form method="POST" action={% url 'project/new' %}>
+            <form method="POST" action={% url 'project/new' %} enctype="multipart/form-data">
                     {% csrf_token %}
                     {% for field in project_form.visible_fields %}
                         <div class="row form-group">

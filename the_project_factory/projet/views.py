@@ -10,7 +10,7 @@ from django.shortcuts import redirect
 
 def projet_new(request):
     if request.method == "POST":
-        project_form = CreateProjet(request.POST)
+        project_form = CreateProjet(request.POST, files=request.FILES)
         if project_form.is_valid():
             '''projet = project_form
             aut = Personne.objects.get(id=request.user.id)
@@ -25,14 +25,17 @@ def projet_new(request):
             # projet = Projet.objects.get(personne=aut)'''
             aut = Personne.objects.get(id=request.user.id)
             projet = Projet()
+            projetImage = PhotoProjet()
             projet.titre = project_form.cleaned_data['titre']
             projet.personne = aut
             projet.Type = project_form.cleaned_data['Type']
             projet.description = project_form.cleaned_data['description']
+            projet.image = project_form.cleaned_data['image']
             proj = Projet.objects.create(titre=projet.titre,
                                          Type=projet.Type,
                                          description=projet.description,
-                                         personne=projet.personne)
+                                         personne=projet.personne,
+                                         image=projet.image)
             return redirect('project/project_view', proj.id)
     else:
         project_form = CreateProjet()
