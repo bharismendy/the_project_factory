@@ -9,7 +9,8 @@ urlpatterns = [
     url('^deconnexion/', view=views.deconnexion, name='deconnexion'),
     url('^connexion/', view=views.connexion, name='connexion'),
     url('^profil/', view=views.account, name='profil'),
-    url('^admin_panel', view=views.admin_panel, name='admin_panel')
+    url('^admin_panel', view=views.admin_panel, name='admin_panel'),
+    url('^mentionslegales', view=views.mentions, name='mentions')
 ]
 
 urlpatterns += staticfiles_urlpatterns()

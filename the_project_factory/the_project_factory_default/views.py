@@ -128,6 +128,11 @@ def account(request):
                                                                        'list_of_project': list_of_project})
 
 
+
+def mentions(request):
+    return render(request, 'the_project_factory_default/mentions.html')
+
+
 def deconnexion(request):
     logout(request)
     return redirect(reverse(accueil))
