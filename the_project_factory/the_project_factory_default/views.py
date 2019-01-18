@@ -92,7 +92,7 @@ def account(request):
         request.user.personne = Personne.objects.create(user= request.user)
 
     if request.method == 'POST' and 'btn-update-profil' in request.POST:
-        form_edit_utilisateur = EditUserProfile(data=request.POST, user=request.user)
+        form_edit_utilisateur = EditUserProfile(data=request.POST, user=request.user, files=request.FILES)
         if form_edit_utilisateur.is_valid():
             form_edit_utilisateur.save()
     else:

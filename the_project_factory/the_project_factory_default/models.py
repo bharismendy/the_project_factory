@@ -7,7 +7,7 @@ class Personne(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)  # La liaison OneToOne vers le modèle User
     age = models.IntegerField(null=False, default=0)
     site_web = models.URLField(blank=True)
-    avatar = models.ImageField(null=True, blank=True, upload_to="avatars/")
+    avatar = models.ImageField(upload_to = 'avatars/')
     signature = models.TextField(blank=True)
     inscrit_newsletter = models.BooleanField(default=False)
 

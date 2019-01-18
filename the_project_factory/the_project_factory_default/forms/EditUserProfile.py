@@ -53,8 +53,7 @@ class EditUserProfile(forms.Form):
                                                attrs={'value': age or 0})))
         self.fields['site_web'] = forms.CharField(label="site web", required=False, widget=(forms.TextInput(
                                                      attrs={'value': site_web or None})))
-        self.fields['avatar'] = forms.ImageField(label="avatar", required=False, widget=(forms.TextInput(
-                                                       attrs={'value': avatar or ""})))
+        self.fields['avatar'] = forms.ImageField(label="avatar", required=False)
         self.fields['signature'] = forms.CharField(label="signature", required=False, widget=(forms.TextInput(
                                                      attrs={'value': signature or None})))
 
