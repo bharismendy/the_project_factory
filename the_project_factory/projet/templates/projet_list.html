@@ -4,7 +4,11 @@
         <div class="row margin_5">
             {% for projet in projets %}
                 <div class="col-lg-4 text-center">
+                {% if projet.image %}
+                    <img class="img-circle" src="{{ projet.image.url }}" alt="Photo du projet" width="140" height="140">
+                {% else %}
                     <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                {% endif %}
                     <h2>{{ projet.titre }}</h2>
                         <p class="text-justify">
                             {{ projet.description | slice:":200"  }}
