@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: django
+      MYSQL_DATABASE: the_project_factory
+      MYSQL_USER: djangoadmin
+      MYSQL_PASSWORD: django
+    ports:
+      - 3306
+  web:
+    build: . 
+    restart: always
+    entrypoint: /entrypoint.sh
+    command: python manage.py runserver 0.0.0.0:8005
+    volumes:
+      - .:/poopi
+    ports:
+      - "8005:8005"
+    links:
+      - "mysql:db"
+    depends_on:
+      - mysql
