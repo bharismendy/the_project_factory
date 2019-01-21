@@ -27,6 +27,13 @@
                 <li>{{ type.nom }}</li>
             {% endfor %}
         </ul>
+        <h3>Message received</h3>
+        {% for message in message_received %}
+                <p class="margin_5">
+                <h4>Posté par : {{ message.mail }}</h4>
+                {{ message.texte }}
+                </p>
+        {% endfor %}
         </div>
     </div>
 {% endblock %}

@@ -22,4 +22,5 @@ urlpatterns = [
     url('^project/', include('projet.urls')),
     url('^evaluate/', include('evaluateur.urls')),
     url('^fund/', include('financeur.urls')),
+    url('^contact_us/', include('contact_us.urls')),
 ]

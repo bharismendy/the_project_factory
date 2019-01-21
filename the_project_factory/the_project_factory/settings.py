@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'projet',
     'the_project_factory_default',
     'bootstrap3',
+    'contact_us'
 ]
 
 MIDDLEWARE = [
@@ -136,4 +137,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # coold be used
 SITE_URL = 'http://127.0.0.1'
 SITE_PORT = '8000'
-LOGIN_URL = '/connexion/'

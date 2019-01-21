@@ -10,6 +10,7 @@ from the_project_factory_default.forms.LoginForm import LoginForm
 from the_project_factory_default.forms.SignUpForm import SignUpForm
 from the_project_factory_default.forms.EditUserProfile import EditUserProfile
 from projet.models import Projet,Type
+from contact_us.models import message
 from projet.forms.add_project_type import AddProjectType
 from financeur.models import Financement, Financeur
 from evaluateur.models import Evaluation,Evaluateur
@@ -57,7 +58,6 @@ def connexion(request):
 
     else:
         register_form = SignUpForm()
-
     return render(request, "the_project_factory_default/auth.html", {'register_form': register_form,
                                                                      'login_form': login_form,
                                                                      'error_login': error_login,
@@ -65,7 +65,6 @@ def connexion(request):
 
 @login_required
 def admin_panel(request):
-
     list_get_type = Type.objects.all()
     if request.method == 'POST' and 'btn-add-type' in request.POST :
         add_type_form = AddProjectType(request.POST)
@@ -73,8 +72,11 @@ def admin_panel(request):
             add_type_form.save()
     else:
         add_type_form = AddProjectType()
+
+    message_received = message.objects.all()
     return render(request, 'the_project_factory_default/admin_panel.html', {'list_of_type': list_get_type,
-                                                                            'add_type_form': add_type_form})
+                                                                            'add_type_form': add_type_form,
+                                                                            'message_received': message_received})
 
 
 @login_required

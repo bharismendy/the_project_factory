@@ -40,7 +40,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/bharismendy/Documents/pycharm_project/the_project_factory/venv"
+VIRTUAL_ENV="/home/etudiant/Documents/culture_gnu_linux/the_project_factory/the_project_factory/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

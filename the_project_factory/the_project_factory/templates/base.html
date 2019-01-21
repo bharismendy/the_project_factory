@@ -51,8 +51,11 @@
 
         <footer>
         <hr>
-            <a href="{% url 'mentions' %}" style="float:right">Mentions Légales</a>
-            <a href="{% url 'project/feed' %}">notre flux rss</a>
+            <div style="text-align: center">
+                <a href="{% url 'mentions' %}"><button>Mentions Légales</button></a>
+                <a href="{% url 'project/feed' %}"><button>Notre flux rss</button></a>
+                <a href="{% url 'contact_us' %}"><button>Contact us</button></a>
+            </div>
 
         </footer>
     </body>

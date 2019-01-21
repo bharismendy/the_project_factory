@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="container">
+        <div class="row margin_5">
+            <form method="POST" action={% url 'contact_us'  %}>
+                {% csrf_token %}
+                {% for field in contact_form.visible_fields %}
+                    <div class="row form-group">
+                        <div class="col-lg-12 text-danger error_fields">
+                          {{ field.errors | safe }}
+                        </div>
+                        <div class="col-lg-4">
+                            {{ field.label_tag }}
+                        </div>
+                        <div class="col-lg-7">
+                          {{ field }}
+                          {{ field.help_text }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <button class="btn btn-success default-primary-color" name="btn-add_message" type="submit">Send mail</button>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
