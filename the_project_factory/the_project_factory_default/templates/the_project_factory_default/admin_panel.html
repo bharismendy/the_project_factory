@@ -30,9 +30,11 @@
         <h3>Message received</h3>
         {% for message in message_received %}
                 <p>
+            <hr>
                 <h4>Posté par : {{ message.mail }}</h4>
                 {{ message.texte }}
                 </p>
+            <hr>
         {% endfor %}
         </div>
     </div>

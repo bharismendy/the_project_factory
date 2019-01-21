@@ -12,6 +12,7 @@ def message_us(request):
             texte = contact_form.cleaned_data['texte']
             mail = contact_form.cleaned_data['mail']
             message_to_send = message.objects.create(texte=texte, mail=mail)
+            return redirect('accueil')
     else:
         contact_form = contactForm()
     return render(request, 'contact.html', {'contact_form': contact_form})

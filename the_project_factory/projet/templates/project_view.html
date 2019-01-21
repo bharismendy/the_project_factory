@@ -65,11 +65,9 @@
                         Ce projet est proposé par {{ projet.personne.user.username }} <br/>
                         Ce projet à en moyenne une note de {{ note_projet }}/5<br/>
                         <b>Ce projet a été financé à hauteur de {{ promesse_de_don }}€<br/></b>
-                         {% if user.is__authenticated %}
-                        <a href="{% url 'funds/project' id_projet=projet.id %}">
-                            <button class="btn btn-dark margin_5" role="button">Financer ce projet</button>
-                        </a>
-                        {% endif %}
+                            <a href="{% url 'funds/project' id_projet=projet.id %}">
+                                <button class="btn btn-dark margin_5" role="button">Financer ce projet</button>
+                            </a>
                     </p>
                 </div>
 
