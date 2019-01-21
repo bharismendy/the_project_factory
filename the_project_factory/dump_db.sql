@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Jan 21, 2019 at 11:15 AM
+-- Generation Time: Jan 21, 2019 at 11:45 AM
 -- Server version: 5.7.24-0ubuntu0.16.04.1
 -- PHP Version: 7.0.32-0ubuntu0.16.04.1
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `the_project_factory`
 --
+CREATE DATABASE IF NOT EXISTS `the_project_factory` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `the_project_factory`;
 
 -- --------------------------------------------------------
 
@@ -26,9 +28,12 @@ SET time_zone = "+00:00";
 -- Table structure for table `auth_group`
 --
 
-CREATE TABLE `auth_group` (
-  `id` int(11) NOT NULL,
-  `name` varchar(80) NOT NULL
+DROP TABLE IF EXISTS `auth_group`;
+CREATE TABLE IF NOT EXISTS `auth_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -37,10 +42,14 @@ CREATE TABLE `auth_group` (
 -- Table structure for table `auth_group_permissions`
 --
 
-CREATE TABLE `auth_group_permissions` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `auth_group_permissions`;
+CREATE TABLE IF NOT EXISTS `auth_group_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -49,12 +58,15 @@ CREATE TABLE `auth_group_permissions` (
 -- Table structure for table `auth_permission`
 --
 
-CREATE TABLE `auth_permission` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `auth_permission`;
+CREATE TABLE IF NOT EXISTS `auth_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `content_type_id` int(11) NOT NULL,
-  `codename` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `auth_permission`
@@ -119,8 +131,9 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 -- Table structure for table `auth_user`
 --
 
-CREATE TABLE `auth_user` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `auth_user`;
+CREATE TABLE IF NOT EXISTS `auth_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `password` varchar(128) NOT NULL,
   `last_login` datetime(6) DEFAULT NULL,
   `is_superuser` tinyint(1) NOT NULL,
@@ -130,8 +143,10 @@ CREATE TABLE `auth_user` (
   `email` varchar(254) NOT NULL,
   `is_staff` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `date_joined` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `auth_user`
@@ -147,10 +162,14 @@ INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `userna
 -- Table structure for table `auth_user_groups`
 --
 
-CREATE TABLE `auth_user_groups` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `auth_user_groups`;
+CREATE TABLE IF NOT EXISTS `auth_user_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
+  KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -159,10 +178,14 @@ CREATE TABLE `auth_user_groups` (
 -- Table structure for table `auth_user_user_permissions`
 --
 
-CREATE TABLE `auth_user_user_permissions` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `auth_user_user_permissions`;
+CREATE TABLE IF NOT EXISTS `auth_user_user_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
+  KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -171,11 +194,13 @@ CREATE TABLE `auth_user_user_permissions` (
 -- Table structure for table `contact_us_message`
 --
 
-CREATE TABLE `contact_us_message` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `contact_us_message`;
+CREATE TABLE IF NOT EXISTS `contact_us_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `texte` longtext NOT NULL,
-  `mail` varchar(254) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `mail` varchar(254) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `contact_us_message`
@@ -190,15 +215,19 @@ INSERT INTO `contact_us_message` (`id`, `texte`, `mail`) VALUES
 -- Table structure for table `django_admin_log`
 --
 
-CREATE TABLE `django_admin_log` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `django_admin_log`;
+CREATE TABLE IF NOT EXISTS `django_admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `action_time` datetime(6) NOT NULL,
   `object_id` longtext,
   `object_repr` varchar(200) NOT NULL,
   `action_flag` smallint(5) UNSIGNED NOT NULL,
   `change_message` longtext NOT NULL,
   `content_type_id` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -207,11 +236,14 @@ CREATE TABLE `django_admin_log` (
 -- Table structure for table `django_content_type`
 --
 
-CREATE TABLE `django_content_type` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `django_content_type`;
+CREATE TABLE IF NOT EXISTS `django_content_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `app_label` varchar(100) NOT NULL,
-  `model` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `django_content_type`
@@ -242,12 +274,14 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 -- Table structure for table `django_migrations`
 --
 
-CREATE TABLE `django_migrations` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `django_migrations`;
+CREATE TABLE IF NOT EXISTS `django_migrations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `applied` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `applied` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `django_migrations`
@@ -279,10 +313,13 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 -- Table structure for table `django_session`
 --
 
-CREATE TABLE `django_session` (
+DROP TABLE IF EXISTS `django_session`;
+CREATE TABLE IF NOT EXISTS `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
-  `expire_date` datetime(6) NOT NULL
+  `expire_date` datetime(6) NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_expire_date_a5c62663` (`expire_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -298,9 +335,11 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 -- Table structure for table `evaluateur_critere`
 --
 
-CREATE TABLE `evaluateur_critere` (
-  `id` int(11) NOT NULL,
-  `description` longtext NOT NULL
+DROP TABLE IF EXISTS `evaluateur_critere`;
+CREATE TABLE IF NOT EXISTS `evaluateur_critere` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `description` longtext NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -309,11 +348,14 @@ CREATE TABLE `evaluateur_critere` (
 -- Table structure for table `evaluateur_evaluateur`
 --
 
-CREATE TABLE `evaluateur_evaluateur` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `evaluateur_evaluateur`;
+CREATE TABLE IF NOT EXISTS `evaluateur_evaluateur` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `karma` int(11) NOT NULL,
-  `personne_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `personne_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `evaluateur_evaluateu_personne_id_f319410c_fk_the_proje` (`personne_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `evaluateur_evaluateur`
@@ -329,13 +371,18 @@ INSERT INTO `evaluateur_evaluateur` (`id`, `karma`, `personne_id`) VALUES
 -- Table structure for table `evaluateur_evaluation`
 --
 
-CREATE TABLE `evaluateur_evaluation` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `evaluateur_evaluation`;
+CREATE TABLE IF NOT EXISTS `evaluateur_evaluation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `note` int(11) NOT NULL,
   `Evaluateur_id` int(11) NOT NULL,
   `Projet_id` int(11) NOT NULL,
-  `Type_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Type_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `evaluateur_evaluatio_Evaluateur_id_4b28116c_fk_evaluateu` (`Evaluateur_id`),
+  KEY `evaluateur_evaluation_Projet_id_92771c8f_fk_projet_projet_id` (`Projet_id`),
+  KEY `evaluateur_evaluation_Type_id_ec6487da_fk_projet_type_id` (`Type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `evaluateur_evaluation`
@@ -350,12 +397,16 @@ INSERT INTO `evaluateur_evaluation` (`id`, `note`, `Evaluateur_id`, `Projet_id`,
 -- Table structure for table `financeur_financement`
 --
 
-CREATE TABLE `financeur_financement` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `financeur_financement`;
+CREATE TABLE IF NOT EXISTS `financeur_financement` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `somme` int(11) NOT NULL,
   `financeur_id` int(11) NOT NULL,
-  `projet_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `projet_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `financeur_financemen_financeur_id_091bf3d6_fk_financeur` (`financeur_id`),
+  KEY `financeur_financement_projet_id_c24106c9_fk_projet_projet_id` (`projet_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `financeur_financement`
@@ -370,12 +421,15 @@ INSERT INTO `financeur_financement` (`id`, `somme`, `financeur_id`, `projet_id`)
 -- Table structure for table `financeur_financeur`
 --
 
-CREATE TABLE `financeur_financeur` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `financeur_financeur`;
+CREATE TABLE IF NOT EXISTS `financeur_financeur` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `capacite_financiere` int(11) NOT NULL,
   `limite_projet` int(11) NOT NULL,
-  `personne_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `personne_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `financeur_financeur_personne_id_84c0f0aa_fk_the_proje` (`personne_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `financeur_financeur`
@@ -390,12 +444,15 @@ INSERT INTO `financeur_financeur` (`id`, `capacite_financiere`, `limite_projet`,
 -- Table structure for table `projet_commentaireprojet`
 --
 
-CREATE TABLE `projet_commentaireprojet` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `projet_commentaireprojet`;
+CREATE TABLE IF NOT EXISTS `projet_commentaireprojet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `texte` longtext NOT NULL,
   `mail` varchar(254) NOT NULL,
-  `projet_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `projet_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `projet_commentaireprojet_projet_id_cef712a1_fk_projet_projet_id` (`projet_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `projet_commentaireprojet`
@@ -410,11 +467,14 @@ INSERT INTO `projet_commentaireprojet` (`id`, `texte`, `mail`, `projet_id`) VALU
 -- Table structure for table `projet_photoprojet`
 --
 
-CREATE TABLE `projet_photoprojet` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `projet_photoprojet`;
+CREATE TABLE IF NOT EXISTS `projet_photoprojet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `texte` varchar(300) NOT NULL,
   `image` varchar(100) DEFAULT NULL,
-  `projet_id` int(11) NOT NULL
+  `projet_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `projet_photoprojet_projet_id_b6b3fe1e_fk_projet_projet_id` (`projet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -423,14 +483,18 @@ CREATE TABLE `projet_photoprojet` (
 -- Table structure for table `projet_projet`
 --
 
-CREATE TABLE `projet_projet` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `projet_projet`;
+CREATE TABLE IF NOT EXISTS `projet_projet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `titre` varchar(100) NOT NULL,
   `description` longtext NOT NULL,
   `image` varchar(100) DEFAULT NULL,
   `Type_id` int(11) NOT NULL,
-  `personne_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `personne_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `projet_projet_Type_id_4b5d6ac0_fk_projet_type_id` (`Type_id`),
+  KEY `projet_projet_personne_id_a69c8fd7_fk_the_proje` (`personne_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `projet_projet`
@@ -447,10 +511,13 @@ INSERT INTO `projet_projet` (`id`, `titre`, `description`, `image`, `Type_id`, `
 -- Table structure for table `projet_type`
 --
 
-CREATE TABLE `projet_type` (
-  `id` int(11) NOT NULL,
-  `nom` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `projet_type`;
+CREATE TABLE IF NOT EXISTS `projet_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nom` (`nom`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `projet_type`
@@ -467,15 +534,18 @@ INSERT INTO `projet_type` (`id`, `nom`) VALUES
 -- Table structure for table `the_project_factory_default_personne`
 --
 
-CREATE TABLE `the_project_factory_default_personne` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `the_project_factory_default_personne`;
+CREATE TABLE IF NOT EXISTS `the_project_factory_default_personne` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `age` int(11) NOT NULL,
   `site_web` varchar(200) NOT NULL,
   `avatar` varchar(100) DEFAULT NULL,
   `signature` longtext NOT NULL,
   `inscrit_newsletter` tinyint(1) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `the_project_factory_default_personne`
@@ -485,266 +555,6 @@ INSERT INTO `the_project_factory_default_personne` (`id`, `age`, `site_web`, `av
 (1, 0, 'None', 'avatars/user-male-circle-filled.png', 'None', 0, 2),
 (2, 0, '', '', '', 0, 1);
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `auth_group`
---
-ALTER TABLE `auth_group`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
-  ADD KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`);
-
---
--- Indexes for table `auth_permission`
---
-ALTER TABLE `auth_permission`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`);
-
---
--- Indexes for table `auth_user`
---
-ALTER TABLE `auth_user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
-
---
--- Indexes for table `auth_user_groups`
---
-ALTER TABLE `auth_user_groups`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`),
-  ADD KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`);
-
---
--- Indexes for table `auth_user_user_permissions`
---
-ALTER TABLE `auth_user_user_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
-  ADD KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`);
-
---
--- Indexes for table `contact_us_message`
---
-ALTER TABLE `contact_us_message`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
-  ADD KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`);
-
---
--- Indexes for table `django_content_type`
---
-ALTER TABLE `django_content_type`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`);
-
---
--- Indexes for table `django_migrations`
---
-ALTER TABLE `django_migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `django_session`
---
-ALTER TABLE `django_session`
-  ADD PRIMARY KEY (`session_key`),
-  ADD KEY `django_session_expire_date_a5c62663` (`expire_date`);
-
---
--- Indexes for table `evaluateur_critere`
---
-ALTER TABLE `evaluateur_critere`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `evaluateur_evaluateur`
---
-ALTER TABLE `evaluateur_evaluateur`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `evaluateur_evaluateu_personne_id_f319410c_fk_the_proje` (`personne_id`);
-
---
--- Indexes for table `evaluateur_evaluation`
---
-ALTER TABLE `evaluateur_evaluation`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `evaluateur_evaluatio_Evaluateur_id_4b28116c_fk_evaluateu` (`Evaluateur_id`),
-  ADD KEY `evaluateur_evaluation_Projet_id_92771c8f_fk_projet_projet_id` (`Projet_id`),
-  ADD KEY `evaluateur_evaluation_Type_id_ec6487da_fk_projet_type_id` (`Type_id`);
-
---
--- Indexes for table `financeur_financement`
---
-ALTER TABLE `financeur_financement`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `financeur_financemen_financeur_id_091bf3d6_fk_financeur` (`financeur_id`),
-  ADD KEY `financeur_financement_projet_id_c24106c9_fk_projet_projet_id` (`projet_id`);
-
---
--- Indexes for table `financeur_financeur`
---
-ALTER TABLE `financeur_financeur`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `financeur_financeur_personne_id_84c0f0aa_fk_the_proje` (`personne_id`);
-
---
--- Indexes for table `projet_commentaireprojet`
---
-ALTER TABLE `projet_commentaireprojet`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `projet_commentaireprojet_projet_id_cef712a1_fk_projet_projet_id` (`projet_id`);
-
---
--- Indexes for table `projet_photoprojet`
---
-ALTER TABLE `projet_photoprojet`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `projet_photoprojet_projet_id_b6b3fe1e_fk_projet_projet_id` (`projet_id`);
-
---
--- Indexes for table `projet_projet`
---
-ALTER TABLE `projet_projet`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `projet_projet_Type_id_4b5d6ac0_fk_projet_type_id` (`Type_id`),
-  ADD KEY `projet_projet_personne_id_a69c8fd7_fk_the_proje` (`personne_id`);
-
---
--- Indexes for table `projet_type`
---
-ALTER TABLE `projet_type`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nom` (`nom`);
-
---
--- Indexes for table `the_project_factory_default_personne`
---
-ALTER TABLE `the_project_factory_default_personne`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id` (`user_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `auth_group`
---
-ALTER TABLE `auth_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `auth_permission`
---
-ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
---
--- AUTO_INCREMENT for table `auth_user`
---
-ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `auth_user_groups`
---
-ALTER TABLE `auth_user_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `auth_user_user_permissions`
---
-ALTER TABLE `auth_user_user_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `contact_us_message`
---
-ALTER TABLE `contact_us_message`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `django_admin_log`
---
-ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `django_content_type`
---
-ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
---
--- AUTO_INCREMENT for table `django_migrations`
---
-ALTER TABLE `django_migrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
---
--- AUTO_INCREMENT for table `evaluateur_critere`
---
-ALTER TABLE `evaluateur_critere`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `evaluateur_evaluateur`
---
-ALTER TABLE `evaluateur_evaluateur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `evaluateur_evaluation`
---
-ALTER TABLE `evaluateur_evaluation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `financeur_financement`
---
-ALTER TABLE `financeur_financement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `financeur_financeur`
---
-ALTER TABLE `financeur_financeur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `projet_commentaireprojet`
---
-ALTER TABLE `projet_commentaireprojet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `projet_photoprojet`
---
-ALTER TABLE `projet_photoprojet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `projet_projet`
---
-ALTER TABLE `projet_projet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT for table `projet_type`
---
-ALTER TABLE `projet_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `the_project_factory_default_personne`
---
-ALTER TABLE `the_project_factory_default_personne`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --
