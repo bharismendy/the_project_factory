@@ -3,8 +3,9 @@
 {% block content %}
     <div class="container">
         <div class="row margin_5">
+            <h4>List des projets du plus ancien au plus récent :</h4>
             {% for projet in list_of_all_project %}
-                <div class="col-lg-4 text-center">
+                <div class="col-lg-4 text-center margin_5">
                 {% if projet.image %}
                     <img class="img-circle" src="{{ projet.image.url }}" alt="Photo du projet" width="140" height="140">
                 {% else %}

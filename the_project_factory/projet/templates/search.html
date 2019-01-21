@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+        <div class="container">
+        <div class="row margin_5">
+            <form method="get" action="{% url 'project/search' %}">
+                {% csrf_token %}
+                {{  search_form }}
+                <button type="submit"> Lancer la recherche</button>
+            </form>
+        {% if list_of_all_project %}
+            {% for projet in list_of_all_project %}
+                <div class="col-lg-4 text-center margin_5">
+                {% if projet.image %}
+                    <img class="img-circle" src="{{ projet.image.url }}" alt="Photo du projet" width="140" height="140">
+                {% else %}
+                    <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                {% endif %}
+                    <h2>{{ projet.titre }}</h2>
+                        <p class="text-justify">
+                            {{ projet.description | slice:":200"  }}
+                        </p>
+                    <p><a href="{% url 'project/project_view' id_projet=projet.id %} "><button class="btn btn-dark" role="button"> View details »</button></a></p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="margin_5">Aucun résultat pour votre recherche</p>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}

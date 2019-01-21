@@ -3,9 +3,10 @@ from evaluateur.models import Evaluateur, Evaluation
 from projet.models import Projet
 from django.shortcuts import redirect
 from django.db.models import Avg
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def eval_project(request,id_projet):
     """
     controler of the template accueil.html

@@ -21,7 +21,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{% url 'accueil' %}">Home</a></li>
+              <li class="active"><a href="{% url 'accueil' %}">Home</a></li>
+              <li><a href="{% url 'project/search' %}">Rechercher</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_superuser %}
@@ -49,7 +50,10 @@
 
 
         <footer>
+        <hr>
             <a href="{% url 'mentions' %}" style="float:right">Mentions Légales</a>
+            <a href="{% url 'project/feed' %}">notre flux rss</a>
+
         </footer>
     </body>
 </html>

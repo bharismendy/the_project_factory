@@ -14,7 +14,7 @@
                                     <p class="text-justify">
                                         {{ projet.description }}
                                     </p>
-
+                {% if user.is_authenticated%}
                         {% if already_eval %}
                             <p class = "margin_5">vous avez déjà évalué ce projet !</p>
                         {% else %}
@@ -32,6 +32,32 @@
                                     </p>
                             </form>
                         {% endif %}
+                    {% endif %}
+                        <h3>La section commentaire</h3>
+                        <form method="POST" action={% url 'project/comment' id_projet=projet.id %}>
+                            {% csrf_token %}
+                            {% for field in form_commentaire.visible_fields %}
+                                <div class="row form-group">
+                                    <div class="col-lg-12 text-danger error_fields">
+                                      {{ field.errors | safe }}
+                                    </div>
+                                    <div class="col-lg-4">
+                                        {{ field.label_tag }}
+                                    </div>
+                                    <div class="col-lg-7">
+                                      {{ field }}
+                                      {{ field.help_text }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <button class="btn btn-success default-primary-color" name="btn-add_comment" type="submit">comment</button>
+                        </form>
+            {% for comment in commentaire_projet %}
+                <p class="margin_5">
+                <h4>Posté par : {{ comment.mail }}</h4>
+                {{ comment.texte }}
+                </p>
+            {% endfor %}
                     </div>
                 </div>
                 <div class="col col-lg-4 text-center">
@@ -39,11 +65,14 @@
                         Ce projet est proposé par {{ projet.personne.user.username }} <br/>
                         Ce projet à en moyenne une note de {{ note_projet }}/5<br/>
                         <b>Ce projet a été financé à hauteur de {{ promesse_de_don }}€<br/></b>
+                         {% if user.is__authenticated %}
                         <a href="{% url 'funds/project' id_projet=projet.id %}">
                             <button class="btn btn-dark margin_5" role="button">Financer ce projet</button>
                         </a>
+                        {% endif %}
                     </p>
                 </div>
+
             </div>
     </div>
 {% endblock %}

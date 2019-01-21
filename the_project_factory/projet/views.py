@@ -1,13 +1,14 @@
 from django.shortcuts import render
-from projet.forms.CreateProjet import CreateProjet
-from projet.models import Type, Projet, PhotoProjet
+from projet.forms import AddComment, CreateProjet, SearchProject
+from projet.models import Type, Projet, PhotoProjet, CommentaireProjet
 from the_project_factory_default.models import Personne
 from evaluateur.models import Evaluation, Evaluateur
 from django.db.models import Avg, Sum
 from financeur.models import Financement
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def projet_new(request):
     if request.method == "POST":
         project_form = CreateProjet(request.POST, files=request.FILES)
@@ -52,6 +53,17 @@ def projet_list_specific(request, auteur):
     return render(request, 'projet_list.html',  {'projets': projets})
 
 
+def comment_project(request, id_projet):
+    projet = Projet.objects.get(id=id_projet)
+    if request.method == 'POST':
+        comment_form = AddComment(request.POST)
+        if comment_form.is_valid():
+            texte = comment_form.cleaned_data['texte']
+            mail = comment_form.cleaned_data['mail']
+            commentaire = CommentaireProjet.objects.create(texte=texte, projet=projet, mail=mail)
+    return redirect('project/project_view', id_projet)
+
+
 def projet_display(request, id_projet):
     projet = Projet.objects.get(id=id_projet)
     evaluation = None
@@ -62,7 +74,7 @@ def projet_display(request, id_projet):
         note_projet = 0
     try:
         evaluateur = Evaluateur.objects.get(personne=request.user.personne)
-    except Evaluateur.DoesNotExist:
+    except :
         evaluateur = None
     if evaluateur:
         evaluation = Evaluation.objects.filter(Evaluateur=evaluateur, Projet=id_projet)
@@ -77,7 +89,24 @@ def projet_display(request, id_projet):
     promesse_de_don = promesse_de_don['somme__sum']
     if promesse_de_don is None:
         promesse_de_don = 0
+    commentaire_projet = CommentaireProjet.objects.filter(projet=projet)
+    form_commentaire = AddComment()
     return render(request, 'project_view.html', {'projet': projet,
                                                  'already_eval': already_eval,
                                                  'note_projet': note_projet,
-                                                 'promesse_de_don': promesse_de_don})
+                                                 'promesse_de_don': promesse_de_don,
+                                                 'commentaire_projet': commentaire_projet,
+                                                 'form_commentaire': form_commentaire})
+
+
+def search_project(request):
+    # get the research
+    search = request.GET.get('q', '')
+    search_form = SearchProject()
+    if search == '':
+        list_of_project = Projet.objects.all()
+    else:
+        list_of_project = Projet.objects.filter(description__contains=search)
+
+    return render(request, 'search.html', {'search_form': search_form,
+                                           'list_of_all_project': list_of_project}, )

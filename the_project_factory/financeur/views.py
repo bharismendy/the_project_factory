@@ -3,9 +3,10 @@ from financeur.forms import promesse_de_don
 from financeur.models import Financement, Financeur
 from projet.models import Projet
 from django.shortcuts import redirect
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def funds_project(request,id_projet):
     promesse_de_don_form = promesse_de_don()
     if request.method == 'POST':

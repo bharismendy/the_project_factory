@@ -13,6 +13,7 @@ from projet.models import Projet,Type
 from projet.forms.add_project_type import AddProjectType
 from financeur.models import Financement, Financeur
 from evaluateur.models import Evaluation,Evaluateur
+from django.contrib.auth.decorators import login_required
 
 
 def accueil(request):
@@ -62,7 +63,7 @@ def connexion(request):
                                                                      'error_login': error_login,
                                                                      'error_register': error_register})
 
-
+@login_required
 def admin_panel(request):
 
     list_get_type = Type.objects.all()
@@ -76,6 +77,7 @@ def admin_panel(request):
                                                                             'add_type_form': add_type_form})
 
 
+@login_required
 def account(request):
     """
     controler of the template account that allow to edit the user profile
@@ -128,11 +130,12 @@ def account(request):
                                                                        'list_of_project': list_of_project})
 
 
-
 def mentions(request):
     return render(request, 'the_project_factory_default/mentions.html')
 
-
+@login_required
 def deconnexion(request):
     logout(request)
     return redirect(reverse(accueil))
+
+
