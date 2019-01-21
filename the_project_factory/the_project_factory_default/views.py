@@ -23,7 +23,7 @@ def accueil(request):
     :param request: variable wich contains the value of the page
     :return: template html
     """
-    list_of_all_project = Projet.objects.all()
+    list_of_all_project = Projet.objects.all().order_by('id')
     return render(request, 'the_project_factory_default/accueil.html', {'list_of_all_project': list_of_all_project},)
 
 
